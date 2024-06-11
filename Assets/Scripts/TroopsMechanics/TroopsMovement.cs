@@ -10,14 +10,17 @@ namespace TroopsMechanics{
         protected Transform[] waypoints;
         protected int currentWaypointIndex = 0;
         protected bool moveForward = true; // Flag to indicate the direction of movement
+        protected float speed;
         #endregion
         
         // protected abstract Transform[] DetermineWaypointSequence(Transform[] originalWaypoints);
-        public void Initialize(Transform[] originalWaypoints, NavMeshAgent agent, bool forwardDirection)
+        public void Initialize(Transform[] originalWaypoints, NavMeshAgent agent, bool forwardDirection, float troopSpeed)
         {
             waypoints = originalWaypoints;//DetermineWaypointSequence(originalWaypoints);
             navMeshAgent = agent;
             moveForward = forwardDirection;
+            this.speed = troopSpeed;
+            agent.speed = speed;
 
             // Find the closest waypoint
             currentWaypointIndex = FindClosestWaypointIndex();
@@ -84,6 +87,7 @@ namespace TroopsMechanics{
 
     public class MyTroopMovementLogic : TroopMovementLogic
     {
+
         // protected override Transform[] DetermineWaypointSequence(Transform[] originalWaypoints)
         // {
         //     // Implement your logic to determine the sequence of waypoints

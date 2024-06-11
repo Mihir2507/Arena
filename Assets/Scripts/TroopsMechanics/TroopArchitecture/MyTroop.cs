@@ -38,6 +38,8 @@ public class MyTroop : MonoBehaviour
 {
     #region Fields
     private TroopMovementLogic troopMovementLogic;
+
+    [SerializeField] private TroopStats troopStats;
     [SerializeField] private Transform[] waypoints; // Assign these waypoints in the inspector
     private const bool CLOCKWISE = true;
     private const bool ANTI_CLOCKWISE = false;
@@ -46,6 +48,24 @@ public class MyTroop : MonoBehaviour
     
     private void Start()
     {
+        if (MomentumPresenter.Instance == null)
+        {
+            Debug.LogError("No MomentumPresenter instance found.");
+            return;
+        }
+
+        // Check if we can deploy the troop
+        if (!MomentumPresenter.Instance.CanDeployTroop(troopStats))
+        {
+            Debug.LogWarning("Not enough momentum to deploy this troop.");
+            Destroy(gameObject);
+            return;
+        }
+
+        // Deduct momentum and deploy troop
+        MomentumPresenter.Instance.DeployTroop(troopStats);
+
+        
         NavMeshAgent navMeshAgent = GetComponent<NavMeshAgent>();
         if (navMeshAgent == null)
         {
@@ -55,7 +75,7 @@ public class MyTroop : MonoBehaviour
 
         // Initialize the troop movement logic with specific logic
         troopMovementLogic = new MyTroopMovementLogic();
-        troopMovementLogic.Initialize(waypoints, navMeshAgent, moveForward);
+        troopMovementLogic.Initialize(waypoints, navMeshAgent, moveForward, troopStats.speed);
         int randDeath = Random.Range(25,35);
         Invoke("DestroyTroop", randDeath);
     }

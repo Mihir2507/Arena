@@ -2723,6 +2723,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4c1f01db1e914e946a13f3fe1039e9a6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  troopStats:
+    healthPoints: 0
+    attackPower: 0
+    range: 
+    speed: 11
+    momentumCost: 2
+    specialAbilities: 
   waypoints:
   - {fileID: 4864594905788382043, guid: 5bdeb3ad4422466449f0c62f880ed629, type: 3}
   - {fileID: 1453784561280010327, guid: 8d30299ec5569104eaa757cc70f3c094, type: 3}

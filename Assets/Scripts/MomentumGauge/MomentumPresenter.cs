@@ -22,6 +22,18 @@ public class MomentumPresenter : MonoBehaviour
         model.OnMomentumChanged += UpdateView;
     }
 
+    private void Start()
+    {
+        OverdrivePresenter.Instance.OnOverdriveActivated += model.ActivateOverdrive;
+        OverdrivePresenter.Instance.OnOverdriveDeactivated += model.DeactivateOverdrive;
+    }
+
+    private void OnDestroy()
+    {
+        OverdrivePresenter.Instance.OnOverdriveActivated -= model.ActivateOverdrive;
+        OverdrivePresenter.Instance.OnOverdriveDeactivated -= model.DeactivateOverdrive;
+    }
+
     private void Update()
     {
         model.UpdateMomentum(Time.deltaTime);

@@ -76,11 +76,20 @@ public class MyTroop : MonoBehaviour
         // Initialize the troop movement logic with specific logic
         troopMovementLogic = new MyTroopMovementLogic();
         troopMovementLogic.Initialize(waypoints, navMeshAgent, moveForward, troopStats.speed);
-        int randDeath = Random.Range(25,35);
+        int randDeath = Random.Range(7,7);
         Invoke("DestroyTroop", randDeath);
     }
 
+    private void OnKill()
+    {
+        if (OverdrivePresenter.Instance != null)
+        {
+            OverdrivePresenter.Instance.IncreaseOverdrive(3f); // Adjust the amount as needed
+        }
+    }
+
     private void DestroyTroop(){
+        OnKill();
         Destroy(gameObject);
     }
     private void Update()

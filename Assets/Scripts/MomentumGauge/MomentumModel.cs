@@ -3,12 +3,15 @@ using UnityEngine;
 
 public class MomentumModel
 {
+
     public event Action OnMomentumChanged;
 
     private float maxMomentum = 5f;
     private float currentMomentum = 0f;
-    private float passiveFillRate = .5f; // Momentum gained per second
+    private float passiveFillRate = .25f; // Momentum gained per second
+    private float overdriveFillMultiplier = 2f;
     private int segments = 5;
+    private bool isOverdriveActive = false;
 
     public float CurrentMomentum
     {
@@ -26,7 +29,8 @@ public class MomentumModel
 
     public void UpdateMomentum(float deltaTime)
     {
-        CurrentMomentum += passiveFillRate * deltaTime;
+        float fillRate = isOverdriveActive ? passiveFillRate * overdriveFillMultiplier : passiveFillRate;
+        CurrentMomentum += fillRate * deltaTime;
     }
 
     public bool CanDeployTroop(TroopStats troopStats)
@@ -44,5 +48,19 @@ public class MomentumModel
         {
             Debug.LogWarning("Not enough momentum to deploy this troop.");
         }
+    }
+
+    public void ActivateOverdrive()
+    {
+        Debug.Log("Momentum increased");
+        isOverdriveActive = true;
+        OnMomentumChanged?.Invoke();
+    }
+
+    public void DeactivateOverdrive()
+    {
+        Debug.Log("Momentum decreased");
+        isOverdriveActive = false;
+        OnMomentumChanged?.Invoke();
     }
 }

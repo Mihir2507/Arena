@@ -4,7 +4,7 @@ using Unity.Jobs;
 using Unity.Collections;
 using Unity.Burst;
 
-public class Testing : MonoBehaviour {
+public class TestingJob : MonoBehaviour {
 
     public bool useJob;
 

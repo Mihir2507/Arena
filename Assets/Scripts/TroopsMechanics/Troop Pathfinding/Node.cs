@@ -16,7 +16,7 @@ public class Node
     public void DrawGizmos()
     {
         Gizmos.color = Color.red;
-        Gizmos.DrawSphere(Position, 0.2f);
+        // Gizmos.DrawSphere(Position, 0.2f);
 
         Gizmos.color = Color.yellow;
         foreach (var neighbor in Neighbors)

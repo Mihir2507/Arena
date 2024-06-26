@@ -82,44 +82,42 @@ namespace TurretMechanics{
             this.projectileAcceleration = projectileAcceleration;
         }
 
-        // protected override void Shoot()
-        // {
-        //     if (currentTarget != null)
-        //     {
-        //         // // Rotate the turret to face the target
-        //         targetDirection = currentTarget.position - rotatingPart.position;
-        //         Quaternion targetRotation = Quaternion.LookRotation(targetDirection); //empty.position
-        //         Vector3 rotation = Quaternion.Slerp(rotatingPart.rotation, targetRotation,120f).eulerAngles;
-        //         // Smoothly rotate turret towards target
-        //         rotatingPart.rotation = Quaternion.Euler(rotation.x, rotation.y, rotation.z);
-
-
-        //         // Shoot a projectile
-        //         GameObject projectile = GameObject.Instantiate(projectilePrefab, rotatingPart.position, rotatingPart.rotation);
-        //         Rigidbody rb = projectile.GetComponent<Rigidbody>();
-        //         if (rb != null)
-        //         {
-        //             rb.velocity = targetDirection.normalized * projectileSpeed;
-        //         }
-        //     }
-        // }
-
         protected override void Shoot()
         {
             if (currentTarget != null)
             {
-                // Rotate the turret to face the target
-                Vector3 direction = (currentTarget.position - rotatingPart.position).normalized;
-                Quaternion lookRotation = Quaternion.LookRotation(direction);
-                rotatingPart.rotation = Quaternion.Slerp(rotatingPart.rotation, lookRotation, Time.deltaTime * 5f);
+                // // Rotate the turret to face the target
+                Vector3 targetDirection = currentTarget.position - rotatingPart.position;
+                Quaternion targetRotation = Quaternion.LookRotation(targetDirection); //empty.position
+                Vector3 rotation = Quaternion.Slerp(rotatingPart.rotation, targetRotation,120f).eulerAngles;
+                // Smoothly rotate turret towards target
+                rotatingPart.rotation = Quaternion.Euler(rotation.x, rotation.y, rotation.z);
 
-                // Shoot a homing projectile
+
+                // Shoot a projectile
                 GameObject projectile = GameObject.Instantiate(projectilePrefab, rotatingPart.position, rotatingPart.rotation);
                 HomingProjectile homingProjectile = projectile.GetComponent<HomingProjectile>();
                 // Null check for homingprojectile
                 homingProjectile?.Initialize(currentTarget, projectileSpeed, projectileAcceleration);
             }
         }
+
+        // protected override void Shoot()
+        // {
+        //     if (currentTarget != null)
+        //     {
+        //         // Rotate the turret to face the target
+        //         Vector3 direction = (currentTarget.position - rotatingPart.position).normalized;
+        //         Quaternion lookRotation = Quaternion.LookRotation(direction);
+        //         rotatingPart.rotation = Quaternion.Slerp(rotatingPart.rotation, lookRotation, Time.deltaTime * 5f);
+
+        //         // Shoot a homing projectile
+        //         GameObject projectile = GameObject.Instantiate(projectilePrefab, rotatingPart.position, rotatingPart.rotation);
+        //         HomingProjectile homingProjectile = projectile.GetComponent<HomingProjectile>();
+        //         // Null check for homingprojectile
+        //         homingProjectile?.Initialize(currentTarget, projectileSpeed, projectileAcceleration);
+        //     }
+        // }
     }
 
 }
